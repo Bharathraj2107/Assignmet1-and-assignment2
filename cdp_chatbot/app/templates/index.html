@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CDP Chatbot</title>
+</head>
+<body>
+    <h1>CDP Chatbot</h1>
+    <input type="text" id="question" placeholder="Ask a question...">
+    <button onclick="askQuestion()">Ask</button>
+    <p id="answer"></p>
+
+    <script>
+        async function askQuestion() {
+            const question = document.getElementById('question').value;
+            try {
+                const response = await fetch('/ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question })
+                });
+                const data = await response.json();
+                document.getElementById('answer').innerText = data.answer;
+            } catch (error) {
+                document.getElementById('answer').innerText = "Error: Could not fetch answer.";
+            }
+        }
+    </script>
+</body>
+</html>
